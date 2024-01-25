@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: ${CUSTOM.SERVER.PORT:9000} #Si se pasa 0 se asigna cualquier puerto
 
 spring:
   application:
@@ -8,7 +8,7 @@ spring:
     config:
       server:
         git:
-          uri: rutagit
+          uri: https://github.com/mitocode-microservices/course05-mitocode-config-server-files.git
           defaultLabel: main
 eureka:
   client:
