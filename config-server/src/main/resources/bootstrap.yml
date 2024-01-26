@@ -10,11 +10,15 @@ spring:
         git:
           uri: https://github.com/mitocode-microservices/course05-mitocode-config-server-files.git
           username: mabmab159
-          # password: Token #Se agrega token GHP
-          password: '{cipher}2c10fedfe47e94b84b64f3ad7428a039310172c7d18d845b1a3344260faaed8f' #Pass luego de hashear con puerto/encrypt | raw>text, {cipher} agregar tag para clave encriptada
+          #password: Token #Se agrega token GHP
+          #Pass luego de hashear con puerto/encrypt | raw>text
+          #Para deshashear con puerto/decrypt | raw>text
+          password: '{cipher}2c10fedfe47e94b84b64f3ad7428a039310172c7d18d845b1a3344260faaed8f' #{cipher} agregar tag para clave encriptada
           defaultLabel: main
           cloneOnStart: true
           refreshRate: 10 #tiempo en segundos
+        encrypt:
+          enabled: false #Con esto no desencriptamos los valores
 
 eureka:
   client:
