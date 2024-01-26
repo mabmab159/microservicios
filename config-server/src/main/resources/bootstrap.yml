@@ -9,7 +9,12 @@ spring:
       server:
         git:
           uri: https://github.com/mitocode-microservices/course05-mitocode-config-server-files.git
+          username: mabmab159
+          password: Token #Se agrega token GHP
           defaultLabel: main
+          cloneOnStart: true
+          refreshRate: 10 #tiempo en segundos
+
 eureka:
   client:
     fetchRegistry: true
