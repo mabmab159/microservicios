@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  mongo-service:
+    image: mongo
+    container_name: mitocode-mongo-service
+    ports:
+      - 27017:27017 #Puerto externo:Puerto interno
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mitocode
+      MONGO_INITDB_ROOT_PASSWORD: mitocode
+
+  mongo-service-2:
+    image: mongo
+    container_name: mitocode-mongo-service-2
+    ports:
+      - 27018:27017 #Puerto externo:Puerto interno
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mitocode
+      MONGO_INITDB_ROOT_PASSWORD: mitocode
+
+  mongo-service-3:
+    image: mongo
+    container_name: mitocode-mongo-service-3
+    ports:
+      - 27019:27017 #Puerto interno:Puerto externo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mitocode
+      MONGO_INITDB_ROOT_PASSWORD: mitocode
