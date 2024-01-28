@@ -8,21 +8,22 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: mitocode
       MONGO_INITDB_ROOT_PASSWORD: mitocode
+    networks:
+      - mitocode
 
-  mongo-service-2:
-    image: mongo
-    container_name: mitocode-mongo-service-2
-    ports:
-      - 27018:27017 #Puerto externo:Puerto interno
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: mitocode
-      MONGO_INITDB_ROOT_PASSWORD: mitocode
 
-  mongo-service-3:
-    image: mongo
-    container_name: mitocode-mongo-service-3
+  mongo-express:
+    image: mongo-express
+    container_name: mitocode-mongo-express
     ports:
-      - 27019:27017 #Puerto interno:Puerto externo
+      - 8081:8081
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mitocode
-      MONGO_INITDB_ROOT_PASSWORD: mitocode
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mitocode
+      ME_CONFIG_MONGODB_ADMINPASSWORD: mitocode
+      ME_CONFIG_MONGODB_URL: mongodb://mitocode:mitocode@mongo-service:27017
+    networks:
+      - mitocode
+
+networks:
+  mitocode:
+    name: mitocode-network
