@@ -5,4 +5,4 @@ spring:
     config:
       uri: http://localhost:9000 #Url del config server
       profile: dev # Se buscara un archivo user-service-dev.yml
-      enabled: true
+      enabled: true #Se indica si la configuracion de config service debe habilitarse
