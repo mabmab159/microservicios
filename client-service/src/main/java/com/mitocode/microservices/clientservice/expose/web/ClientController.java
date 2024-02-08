@@ -1,6 +1,7 @@
 package com.mitocode.microservices.clientservice.expose.web;
 
 import com.mitocode.microservices.clientservice.model.request.UserResponse;
+import com.mitocode.microservices.clientservice.model.request.UserResponseRecord;
 import com.mitocode.microservices.clientservice.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +15,14 @@ import java.util.List;
 public class ClientController {
     private final ClientService clientService;
 
-    @GetMapping("/user")
+    /*@GetMapping("/user")
     public ResponseEntity<List<UserResponse>> getAllUser() {
+        return ResponseEntity.ok(clientService.getAllUser());
+    }*/
+
+    //Implementacion para records
+    @GetMapping("/user")
+    public ResponseEntity<List<UserResponseRecord>> getAllUser() {
         return ResponseEntity.ok(clientService.getAllUser());
     }
 }
