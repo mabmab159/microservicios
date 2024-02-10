@@ -30,7 +30,7 @@ public class ClientService {
 
         //Implementacion para el circuit breaker
         List<UserResponse> userList = circuitBreakerFactory.create("mitocode")
-                .run(() -> userServiceFeign.getAllUser().getContent());
+                .run(() -> userServiceFeign.getAllUser().getContent(), this::fallbackMethod);
 
 
         List<UserResponseRecord> recordList = new ArrayList<>();
@@ -39,6 +39,20 @@ public class ClientService {
         });
         recordList.forEach(p -> log.info("Record: " + p.id()));
         return recordList;
+    }
+
+    public List<UserResponse> fallbackMethod(Throwable e) {
+        log.error("[Mitocode][Error]: "+e.getMessage());
+        List<UserResponse> lstUserResponse = new ArrayList<>();
+        lstUserResponse.add(UserResponse.builder()
+                .roles(new String[]{"ROLE_ADMIN"})
+                .id("MYID").name("FAKE_NAME")
+                .lastname("FAKE_LASTNAME")
+                .password("FAKE_PASS")
+                .username("FAKE_USERNAME")
+                .email("miguelberrio@mail.com")
+                .build());
+        return lstUserResponse;
     }
 
 
