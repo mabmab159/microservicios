@@ -19,7 +19,7 @@ public class CircuitBreakerConfig {
                         .waitDurationInOpenState(Duration.ofSeconds(20L)) //Default 60, tiempo en el cual se encuentra abierto
                         .permittedNumberOfCallsInHalfOpenState(5) //Default 10 peticiones, evaluaciones en estado abierto
                         //Metricas de llamadas lentas
-                        .slowCallDurationThreshold(Duration.ofMillis(750L))//Demora considerada como error
+                        .slowCallDurationThreshold(Duration.ofMillis(750L)) //Demora considerada como error, solo tiempo de descarga de postman
                         .slowCallRateThreshold(50) //porcentaje de error para lentitud
                         .build()).build());
     }

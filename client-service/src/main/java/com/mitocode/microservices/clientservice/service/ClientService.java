@@ -3,6 +3,7 @@ package com.mitocode.microservices.clientservice.service;
 import com.mitocode.microservices.clientservice.model.request.UserResponse;
 import com.mitocode.microservices.clientservice.model.request.UserResponseRecord;
 import com.mitocode.microservices.clientservice.proxy.openfeign.UserServiceFeign;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
@@ -23,20 +24,29 @@ public class ClientService {
     }*/
 
     //Implementacion para record
+    @CircuitBreaker(name = "user-service-cb", fallbackMethod = "fallbackMethod")
     public List<UserResponseRecord> getAllUser() {
-
-        //List<UserResponse> userList = userServiceFeign.getAllUser().getContent();
-
+        List<UserResponse> userList = userServiceFeign.getAllUser().getContent();
 
         //Implementacion para el circuit breaker
-         List<UserResponse> userList = circuitBreakerFactory.create("mitocode")
-                 .run(() -> userServiceFeign.getAllUser().getContent(), this::fallbackMethod);
-
+        // List<UserResponse> userList = circuitBreakerFactory.create("mitocode")
+        //        .run(() -> userServiceFeign.getAllUser().getContent(), this::fallbackMethod);
 
         List<UserResponseRecord> recordList = new ArrayList<>();
-        userList.forEach(p -> {
-            recordList.add(new UserResponseRecord(p.getId(), p.getName(), p.getLastname(), p.getUsername(), /*11, */p.getEmail(), p.getPassword(), p.getRoles()));
-        });
+        userList.forEach(p ->
+                recordList.add(
+                        new UserResponseRecord(
+                                p.getId(),
+                                p.getName(),
+                                p.getLastname(),
+                                p.getUsername(),
+                                /*11, */
+                                p.getEmail(),
+                                p.getPassword(),
+                                p.getRoles()
+                        )
+                )
+        );
         recordList.forEach(p -> log.info("Record: " + p.id()));
         return recordList;
     }
@@ -46,7 +56,8 @@ public class ClientService {
         List<UserResponse> lstUserResponse = new ArrayList<>();
         lstUserResponse.add(UserResponse.builder()
                 .roles(new String[]{"ROLE_ADMIN"})
-                .id("MYID").name("FAKE_NAME")
+                .id("MYID")
+                .name("FAKE_NAME")
                 .lastname("FAKE_LASTNAME")
                 .password("FAKE_PASS")
                 .username("FAKE_USERNAME")
