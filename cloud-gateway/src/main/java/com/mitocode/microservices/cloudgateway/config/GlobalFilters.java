@@ -25,7 +25,7 @@ public class GlobalFilters implements GlobalFilter {
         );
 
         if (appCallerName.isEmpty()) {
-            exchange.getRequest().mutate().header("appCallerName", "Cloud Gateway").build();
+            exchange.getRequest().mutate().header("appCallerName", "CloudGateway").build();
         }
 
         log.info(exchange.getRequest().toString());

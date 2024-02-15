@@ -6,6 +6,7 @@ import com.mitocode.microservices.productservice.service.repository.ProductRepos
 import com.mitocode.microservices.productservice.util.UtilMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,14 +22,14 @@ public class ProductService {
     private final UtilMapper utilMapper;
     private final ProductRepository productRepository;
 
-//    @Value("${server.port}")
-//    private Integer port;
+    @Value("${server.port}")
+    private Integer port;
 
 
     public ProductDTO saveProduct(ProductDTO productDTO) {
         ProductEntity productEntity = utilMapper.convertDTOtoEntity(productDTO);
         productRepository.save(productEntity);
-//        productDTO.setPort(port);
+        productDTO.setPort(port);
         return productDTO;
     }
 
