@@ -42,7 +42,7 @@ public class ProductService {
         return StreamSupport.stream(itProducts.spliterator(), false).map(productEntity -> {
             ProductDTO productDTO = ProductDTO.builder().build();
             BeanUtils.copyProperties(productEntity, productDTO);
-//            productDTO.setPort(port);
+            productDTO.setPort(port);
 
 
             return productDTO;

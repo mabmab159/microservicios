@@ -25,7 +25,7 @@ public class GlobalFilters implements GlobalFilter {
         );
 
         if (appCallerName.isEmpty()) {
-            exchange.getRequest().mutate().header("appCallerName", "CloudGateway").build();
+            exchange.getRequest().mutate().header("appCallerName", "Cloud Gateway").build();
         }
 
         log.info(exchange.getRequest().toString());
@@ -38,9 +38,9 @@ public class GlobalFilters implements GlobalFilter {
                             .getHeaders()
                             .getFirst("appCallerName"));
                     exchange.getResponse().getCookies()
-                            .add("Token", ResponseCookie.from("MitocodeToken",exchange.getRequest()
-                            .getHeaders()
-                            .getFirst("appCallerName")).build());
+                            .add("Token", ResponseCookie.from("MitocodeToken", exchange.getRequest()
+                                    .getHeaders()
+                                    .getFirst("appCallerName")).build());
                 }
         ));
     }
