@@ -11,4 +11,9 @@ public class AuthenticationController {
         return ResponseEntity.ok("Logueado");
     }
 
+
+    @GetMapping("/resource")
+    public ResponseEntity<String> permitAll() {
+        return ResponseEntity.ok("Recurso publico");
+    }
 }
