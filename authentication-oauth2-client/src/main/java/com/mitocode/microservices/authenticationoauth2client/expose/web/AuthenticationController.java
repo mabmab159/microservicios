@@ -17,7 +17,6 @@ public class AuthenticationController {
         return ResponseEntity.ok(result);
     }
 
-
     @GetMapping("/resource")
     public ResponseEntity<String> permitAll() {
         return ResponseEntity.ok("Recurso publico");
