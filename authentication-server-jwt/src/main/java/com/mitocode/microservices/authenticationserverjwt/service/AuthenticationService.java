@@ -6,6 +6,9 @@ import com.mitocode.microservices.authenticationserverjwt.model.request.Authenti
 import com.mitocode.microservices.authenticationserverjwt.model.request.RegisterRequest;
 import com.mitocode.microservices.authenticationserverjwt.service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +19,16 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public String authenticate(AuthenticationRequest request) {
-        return "TOKEN";
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
+        UserEntity userEntity = userRepository.findByUsername(request.username())
+                .orElse(null);
+        if (userEntity == null) {
+            throw new UsernameNotFoundException("Usuario no registrado en BD");
+        }
+        return jwtService.generateToken(userEntity);
     }
 
     public String register(RegisterRequest request) {

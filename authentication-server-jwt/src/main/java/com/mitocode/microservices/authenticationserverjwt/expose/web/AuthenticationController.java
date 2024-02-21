@@ -1,5 +1,6 @@
 package com.mitocode.microservices.authenticationserverjwt.expose.web;
 
+import com.mitocode.microservices.authenticationserverjwt.model.request.AuthenticationRequest;
 import com.mitocode.microservices.authenticationserverjwt.model.request.RegisterRequest;
 import com.mitocode.microservices.authenticationserverjwt.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,13 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest request){
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<String> register(@RequestBody AuthenticationRequest request) {
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
 }

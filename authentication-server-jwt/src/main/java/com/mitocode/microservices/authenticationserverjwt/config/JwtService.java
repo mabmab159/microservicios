@@ -20,7 +20,7 @@ public class JwtService {
         UserEntity userEntity = (UserEntity) userDetails;
         Map<String, Object> customClaims = new HashMap<>();
         customClaims.put("email", userEntity.getEmail());
-        customClaims.put("lastname", userEntity.getLastname());
+        customClaims.put("name", userEntity.getName());
         customClaims.put("password", userEntity.getPassword());
         customClaims.put("authorities", userEntity.getAuthorities());
         return Jwts.builder()
