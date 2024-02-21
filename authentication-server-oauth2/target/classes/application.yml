@@ -1,0 +1,4 @@
+application:
+  name: authentication-server-oauth2
+  version: 0.0.1-SNAPSHOT
+  author: mabmab
