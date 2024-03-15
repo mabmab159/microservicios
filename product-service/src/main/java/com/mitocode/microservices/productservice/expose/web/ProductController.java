@@ -1,6 +1,5 @@
 package com.mitocode.microservices.productservice.expose.web;
 
-
 import com.mitocode.microservices.productservice.model.dto.ProductDTO;
 import com.mitocode.microservices.productservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
-
 public class ProductController {
-
     private final ProductService productService;
-
 
     @PostMapping("/saveProduct")
     public ResponseEntity<ProductDTO> saveProduct(@Valid @RequestBody ProductDTO productDTO) {
@@ -45,9 +41,7 @@ public class ProductController {
     @GetMapping("/product/{flag}")
     public ResponseEntity<List<ProductDTO>> getAllProductsWithFlag(@PathVariable("flag") boolean flag
             , @RequestHeader("appCallerName") String appCallerName) throws Exception {
-
         log.info("App Caller Name: " + appCallerName);
-
         if (flag) {
             throw new Exception("Probando Circuit Breaker");
         }
@@ -57,11 +51,8 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<List<ProductDTO>> getAllProductsWithParameter(@RequestParam("flag") boolean flag,
                                                                         @RequestHeader("appCallerName") String appCallerName
-
     ) throws Exception {
-
         log.info("App Caller Name: " + appCallerName);
-
         if (flag) {
             throw new Exception("Probando Circuit Breaker");
         }
