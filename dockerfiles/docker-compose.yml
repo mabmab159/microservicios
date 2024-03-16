@@ -1,63 +1,72 @@
 version: "3.9"
 services:
-  mongo-service:
-    image: mongo
-    container_name: mitocode-mongo-service
-    ports:
-      - 27017:27017 #Puerto externo:Puerto interno
+  #  mongo-service:
+  #    image: mongo
+  #    container_name: mitocode-mongo-service
+  #    ports:
+  #      - 27017:27017 #Puerto externo:Puerto interno
+  #    environment:
+  #      MONGO_INITDB_ROOT_USERNAME: mitocode
+  #      MONGO_INITDB_ROOT_PASSWORD: mitocode
+  #    networks:
+  #      - mitocode
+  #
+  #
+  #  mongo-express:
+  #    image: mongo-express
+  #    container_name: mitocode-mongo-express
+  #    ports:
+  #      - 8081:8081
+  #    environment:
+  #      ME_CONFIG_MONGODB_ADMINUSERNAME: mitocode
+  #      ME_CONFIG_MONGODB_ADMINPASSWORD: mitocode
+  #      ME_CONFIG_MONGODB_URL: mongodb://mitocode:mitocode@mongo-service:27017
+  #    networks:
+  #      - mitocode
+  #
+  #  mysql:
+  #    image: mysql:latest
+  #    container_name: mitocode-mysql
+  #    volumes:
+  #      - mysql-keycloak:/var/lib/mysql
+  #    environment:
+  #      MYSQL_ROOT_PASSWORD: root_mitocode
+  #      MYSQL_DATABASE: keycloak
+  #      MYSQL_USER: admin
+  #      MYSQL_PASSWORD: mitocode
+  #    ports:
+  #      - 3306:3306
+  #    networks:
+  #      - mitocode
+
+  #  keycloak:
+  #    image: quay.io/keycloak/keycloak:19.0.1
+  #    container_name: mitocode-keycloak
+  #    environment:
+  #      KEYCLOAK_ADMIN: admin
+  #      KEYCLOAK_ADMIN_PASSWORD: admin
+  #      KC_DB: mysql
+  #      KC_DB_USERNAME: admin
+  #      KC_DB_PASSWORD: mitocode
+  #      KC_DB_URL_HOST: mysql
+  #      KC_DB_URL_PORT: 3306
+  #      KC_DB_SCHEMA: keycloak
+  #    ports:
+  #      - 8080:8080
+  #    depends_on: [mysql]
+  #    command: start-dev
+  #    networks:
+  #      - mitocode
+
+  zipkin:
+    image: ghcr.io/openzipkin/zipkin-slim
+    container_name: mitocode-zipkin
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mitocode
-      MONGO_INITDB_ROOT_PASSWORD: mitocode
+      - STORAGE_TYPE=mem
+    ports:
+      - 9411:9411
     networks:
       - mitocode
-
-
-  mongo-express:
-    image: mongo-express
-    container_name: mitocode-mongo-express
-    ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: mitocode
-      ME_CONFIG_MONGODB_ADMINPASSWORD: mitocode
-      ME_CONFIG_MONGODB_URL: mongodb://mitocode:mitocode@mongo-service:27017
-    networks:
-      - mitocode
-
-  mysql:
-    image: mysql:latest
-    container_name: mitocode-mysql
-    volumes:
-      - mysql-keycloak:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root_mitocode
-      MYSQL_DATABASE: keycloak
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: mitocode
-    ports:
-      - 3306:3306
-    networks:
-      - mitocode
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:19.0.1
-    container_name: mitocode-keycloak
-    environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_DB: mysql
-      KC_DB_USERNAME: admin
-      KC_DB_PASSWORD: mitocode
-      KC_DB_URL_HOST: mysql
-      KC_DB_URL_PORT: 3306
-      KC_DB_SCHEMA: keycloak
-    ports:
-      - 8080:8080
-    depends_on: [mysql]
-    command: start-dev
-    networks:
-      - mitocode
-
 
 volumes:
   mysql-keycloak:
