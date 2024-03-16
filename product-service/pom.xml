@@ -14,7 +14,7 @@
     <name>product-service</name>
     <description>Módulo para la gestión de los productos</description>
     <properties>
-        <java.version>8</java.version>
+        <java.version>17</java.version>
         <spring-cloud.version>2023.0.0</spring-cloud.version>
     </properties>
     <dependencies>
@@ -72,7 +72,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
         <!-- Dependencies for Postgresql-->
         <!--        <dependency>-->
         <!--            <groupId>org.postgresql</groupId>-->
