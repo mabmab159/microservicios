@@ -21,7 +21,7 @@ public class SecurityConfig {
         return httpSecurity.authorizeExchange(auth -> auth
                         .pathMatchers(HttpMethod.GET, "/api/user-service/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/user-service/**").hasAnyRole("ADMIN", "SUPERVISOR")
-                        .pathMatchers("/api/product-service/**").hasRole("USER")
+                        .pathMatchers("/api/product-service/**").permitAll()
                         .anyExchange().authenticated()
                 )
                 .addFilterAfter(authenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
