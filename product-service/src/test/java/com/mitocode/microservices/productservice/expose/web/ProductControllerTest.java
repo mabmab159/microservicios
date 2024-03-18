@@ -2,6 +2,8 @@ package com.mitocode.microservices.productservice.expose.web;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.EnabledOnJre;
+import org.junit.jupiter.api.condition.JRE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,8 +37,9 @@ class ProductControllerTest {
     //200
     @Test
     @Order(1)
-//    @DisabledOnJre(JRE.JAVA_17)
-//    @DisabledOnOs(OS.MAC)
+//    @DisabledOnJre(JRE.JAVA_17) // Deshabilitar para una version especifica
+//    @DisabledOnOs(OS.MAC) // Deshabilitar por un SO especifico.
+//    @EnabledOnJre(JRE.JAVA_17) // Habilitar para una version especifica
     @DisplayName("Save Product")
     void when_call_save_product_then_return_200() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/saveProduct")
@@ -84,6 +87,7 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("Get All Products with false flag - 200")
     void when_call_get_all_products_with_paramter() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/product/parameter")
                         .param("tokens", "prueba"))
@@ -91,11 +95,11 @@ class ProductControllerTest {
     }
 
     @Test
-    @Disabled
+    @DisplayName("Get All Products with true flag - 500")
     void when_call_get_all_products_with_flag_then_return_500() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/product/{flag}", true)
-                .header("appCallerName", "Mitocode"))
-        // No validar porque sale excepciòn
+                        .header("appCallerName", "Mitocode"))
+                // No validar porque sale excepciòn
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
     }
 }

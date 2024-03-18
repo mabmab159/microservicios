@@ -99,7 +99,7 @@ public class ProductController {
             , @RequestHeader("appCallerName") String appCallerName) throws Exception {
         log.info("App Caller Name: " + appCallerName);
         if (flag) {
-            throw new Exception("Probando Circuit Breaker");
+            return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok(productService.getAllProducts());
     }
