@@ -93,6 +93,14 @@ services:
     networks:
       - mitocode
 
+  loki:
+    image: grafana/loki
+    container_name: mitocode_loki
+    ports:
+      - 3100:3100
+    networks:
+      - mitocode
+
 volumes:
   mysql-keycloak:
 
