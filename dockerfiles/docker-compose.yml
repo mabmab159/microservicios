@@ -130,6 +130,30 @@ services:
     networks:
       - mitocode
 
+  mongo-query-service:
+    image: mongo
+    container_name: mitocode-mongo-query-service
+    ports:
+      - 27018:27017 #Puerto externo:Puerto interno
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mitocode
+      MONGO_INITDB_ROOT_PASSWORD: mitocode
+    networks:
+      - mitocode
+
+
+  mongo-query-express:
+    image: mongo-express
+    container_name: mitocode-mongo-query-express
+    ports:
+      - 8082:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mitocode
+      ME_CONFIG_MONGODB_ADMINPASSWORD: mitocode
+      ME_CONFIG_MONGODB_URL: mongodb://mitocode:mitocode@mongo-query-service:27017
+    networks:
+      - mitocode
+
 volumes:
   mysql-keycloak:
 

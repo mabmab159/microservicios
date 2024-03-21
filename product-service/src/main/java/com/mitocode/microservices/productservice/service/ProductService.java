@@ -1,13 +1,16 @@
 package com.mitocode.microservices.productservice.service;
 
+import com.mitocode.microservices.commonmodels.model.entity.AuditInfo;
 import com.mitocode.microservices.commonmodels.model.entity.ProductEntity;
 import com.mitocode.microservices.productservice.model.dto.ProductDTO;
 import com.mitocode.microservices.productservice.service.repository.ProductRepository;
+import com.mitocode.microservices.productservice.util.KafkaUtil;
 import com.mitocode.microservices.productservice.util.UtilMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.kafka.support.KafkaUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,6 +24,7 @@ public class ProductService {
 
     private final UtilMapper utilMapper;
     private final ProductRepository productRepository;
+    private final KafkaUtil kafkaUtil;
 
     @Value("${server.port}")
     private Integer port;
@@ -39,9 +43,21 @@ public class ProductService {
             ProductDTO productDTO = ProductDTO.builder().build();
             BeanUtils.copyProperties(productEntity, productDTO);
             productDTO.setPort(port);
+            kafkaUtil.sendMessage(productEntity);
+
+            AuditInfo auditInfo = AuditInfo.builder()
+                    .appCallerName("Postman")
+                    .currentTimestamp(System.currentTimeMillis())
+                    .exception(null)
+                    .message("Productos listados correctamente")
+                    .opnNumber("OPN0001")
+                    .build();
+
+            kafkaUtil.sendMessage(auditInfo);
             return productDTO;
         }).collect(Collectors.toList());
     }
+
     public String updateProduct(String productId, Integer quantity) {
 
         ProductEntity productEntity = productRepository.findById(productId)
