@@ -25,7 +25,6 @@ public class ProductService {
     @Value("${server.port}")
     private Integer port;
 
-
     public ProductDTO saveProduct(ProductDTO productDTO) {
         ProductEntity productEntity = utilMapper.convertDTOtoEntity(productDTO);
         productRepository.save(productEntity);
@@ -33,22 +32,16 @@ public class ProductService {
         return productDTO;
     }
 
-
     public List<ProductDTO> getAllProducts() {
-
         Iterable<ProductEntity> itProducts = productRepository.findAll();
 //                .build());
-
         return StreamSupport.stream(itProducts.spliterator(), false).map(productEntity -> {
             ProductDTO productDTO = ProductDTO.builder().build();
             BeanUtils.copyProperties(productEntity, productDTO);
             productDTO.setPort(port);
-
-
             return productDTO;
         }).collect(Collectors.toList());
     }
-
     public String updateProduct(String productId, Integer quantity) {
 
         ProductEntity productEntity = productRepository.findById(productId)
@@ -57,7 +50,5 @@ public class ProductService {
         productEntity.setStock(productEntity.getStock() - quantity);
         productRepository.save(productEntity);
         return "OK";
-
     }
-
 }
