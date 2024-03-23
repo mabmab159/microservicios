@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StubDTO {
-
     private String productId;
     private String productName;
-
 }

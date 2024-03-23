@@ -10,7 +10,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO {
-
     private String productId;
     @NotBlank
     private String productName;
@@ -18,6 +17,4 @@ public class ProductDTO {
     private Integer stock;
     private String productType;
     private Integer port;
-
-
 }

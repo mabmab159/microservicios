@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.kafka.support.KafkaUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -44,7 +43,6 @@ public class ProductService {
             BeanUtils.copyProperties(productEntity, productDTO);
             productDTO.setPort(port);
             kafkaUtil.sendMessage(productEntity);
-
             AuditInfo auditInfo = AuditInfo.builder()
                     .appCallerName("Postman")
                     .currentTimestamp(System.currentTimeMillis())
@@ -52,17 +50,14 @@ public class ProductService {
                     .message("Productos listados correctamente")
                     .opnNumber("OPN0001")
                     .build();
-
             kafkaUtil.sendMessage(auditInfo);
             return productDTO;
         }).collect(Collectors.toList());
     }
 
     public String updateProduct(String productId, Integer quantity) {
-
         ProductEntity productEntity = productRepository.findById(productId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
-
         productEntity.setStock(productEntity.getStock() - quantity);
         productRepository.save(productEntity);
         return "OK";
